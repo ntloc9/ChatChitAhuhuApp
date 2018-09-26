@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import kotlinx.android.synthetic.main.activity_signup.*
 import locnguyen.com.smack.R
+import locnguyen.com.smack.Sevices.AuthService
 import java.util.*
 
 class SignupActivity : AppCompatActivity() {
@@ -43,10 +44,12 @@ class SignupActivity : AppCompatActivity() {
         val saveG = r.toDouble()/255
         val saveB = b.toDouble()/255
 
-        BackgroundColorUserImage = "[$saveR, $saveG, $saveG, 1]"
+        BackgroundColorUserImage = "[$saveR, $saveG, $saveB, 1]"
     }
 
     fun signupCreateUserClick(view: View){
-
+        AuthService.registerUser(this, "locnguyen@gmail.com", "a1234567"){
+            complete -> if (complete){}
+        }
     }
 }
