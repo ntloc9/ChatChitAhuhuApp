@@ -1,11 +1,11 @@
-package locnguyen.com.smack
+package locnguyen.com.smack.Controller
 
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.text.style.BackgroundColorSpan
 import android.view.View
 import kotlinx.android.synthetic.main.activity_signup.*
+import locnguyen.com.smack.R
 import java.util.*
 
 class SignupActivity : AppCompatActivity() {
