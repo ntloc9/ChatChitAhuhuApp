@@ -23,13 +23,10 @@ class SignupActivity : AppCompatActivity() {
         setContentView(R.layout.activity_signup)
         signupSpinning.visibility = View.INVISIBLE
 
-        val mEditTextEmail: AppCompatEditText = text_input_layout_email.editText as AppCompatEditText
-
     }
 
     var avatarUser = "profileDefault"
     var avatarColor = "[0.5, 0.5, 0.5, 1]"
-
 
     fun signupGenColorBgBtnClicked(view: View){
         val random = Random()
@@ -69,16 +66,18 @@ class SignupActivity : AppCompatActivity() {
         if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()){
             AuthServices.registerUser(this, email, password){registerSuccess ->
                 if (registerSuccess){
+                    Log.d("Locnguyenlog13", "reg success")
 //                Toast.makeText(this, "registerSuccess", Toast.LENGTH_SHORT).show()
                     AuthServices.loginUser(this, email, password){loginSuccess ->
                         if (loginSuccess){
+                            Log.d("Locnguyenlog13", "login success")
 ////                        Toast.makeText(this, "loginSuccess", Toast.LENGTH_SHORT).show()
                             AuthServices.addUser(this, name, email, avatarUser, avatarColor){addSuccess ->
                                 if (addSuccess){
                                     val userDataChange = Intent(BROADCAST_USER_DATA_CHANGE)
                                     LocalBroadcastManager.getInstance(this).sendBroadcast(userDataChange)
                                     enableSpinner(false)
-//                                    Log.d("Locnguyenlog13", "add user success")
+                                    Log.d("Locnguyenlog13", "add user success")
 //                                    Toast.makeText(this, "Sign In Successfully", Toast.LENGTH_LONG).show()
                                     finish()
                                 } else{

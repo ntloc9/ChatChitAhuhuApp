@@ -11,6 +11,7 @@
     <string name="email">email</string>
     <string name="user_name">user name</string>
     <string name="sign_in">Sign in</string>
+    <string name="sign_out">Sign out</string>
     <string name="don_t_have_account">Don\'t have account</string>
     <string name="sign_up">Sign up</string>
     <string name="tap_to_generate_user_avatar">Tap to generate user avatar</string>
