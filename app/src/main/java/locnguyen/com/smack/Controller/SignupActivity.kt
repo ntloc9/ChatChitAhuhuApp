@@ -1,8 +1,11 @@
 package locnguyen.com.smack.Controller
 
+import android.content.Intent
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.content.LocalBroadcastManager
+import android.support.v7.widget.AppCompatEditText
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -10,6 +13,7 @@ import kotlinx.android.synthetic.main.activity_signup.*
 import locnguyen.com.smack.R
 import locnguyen.com.smack.Services.AuthServices
 import locnguyen.com.smack.Services.UserDataService
+import locnguyen.com.smack.Ultilities.BROADCAST_USER_DATA_CHANGE
 import java.util.*
 
 class SignupActivity : AppCompatActivity() {
@@ -18,6 +22,9 @@ class SignupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
         signupSpinning.visibility = View.INVISIBLE
+
+        val mEditTextEmail: AppCompatEditText = text_input_layout_email.editText as AppCompatEditText
+
     }
 
     var avatarUser = "profileDefault"
@@ -59,29 +66,36 @@ class SignupActivity : AppCompatActivity() {
         val name = signupNameText.text.toString()
         val email = signupEmailText.text.toString()
         val password = signupPasswordText.text.toString()
-
-        AuthServices.registerUser(this, email, password){registerSuccess ->
-            if (registerSuccess){
+        if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()){
+            AuthServices.registerUser(this, email, password){registerSuccess ->
+                if (registerSuccess){
 //                Toast.makeText(this, "registerSuccess", Toast.LENGTH_SHORT).show()
-                AuthServices.loginUser(this, email, password){loginSuccess ->
-                    if (loginSuccess){
+                    AuthServices.loginUser(this, email, password){loginSuccess ->
+                        if (loginSuccess){
 ////                        Toast.makeText(this, "loginSuccess", Toast.LENGTH_SHORT).show()
-                        AuthServices.addUser(this, name, email, avatarUser, avatarColor){addSuccess ->
-                            if (addSuccess){
-                                enableSpinner(false)
-                                Log.d("Locnguyenlog13", "add user success")
-                                finish()
-                            } else{
-                                errorToast()
+                            AuthServices.addUser(this, name, email, avatarUser, avatarColor){addSuccess ->
+                                if (addSuccess){
+                                    val userDataChange = Intent(BROADCAST_USER_DATA_CHANGE)
+                                    LocalBroadcastManager.getInstance(this).sendBroadcast(userDataChange)
+                                    enableSpinner(false)
+//                                    Log.d("Locnguyenlog13", "add user success")
+//                                    Toast.makeText(this, "Sign In Successfully", Toast.LENGTH_LONG).show()
+                                    finish()
+                                } else{
+                                    errorToast()
+                                }
                             }
+                        } else{
+                            errorToast()
                         }
-                    } else{
-                        errorToast()
                     }
+                } else{
+                    errorToast()
                 }
-            } else{
-                errorToast()
             }
+        }else{
+            Toast.makeText(this, "Make sure you are fill in name, email and password", Toast.LENGTH_SHORT).show()
+            enableSpinner(false)
         }
     }
 
