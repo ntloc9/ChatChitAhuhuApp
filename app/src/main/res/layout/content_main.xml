@@ -27,7 +27,7 @@
         android:layout_marginStart="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Name"
+        android:text="@string/name"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/sentMessageBtn"

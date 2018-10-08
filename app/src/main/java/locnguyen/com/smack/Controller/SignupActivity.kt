@@ -77,7 +77,7 @@ class SignupActivity : AppCompatActivity() {
                                     val userDataChange = Intent(BROADCAST_USER_DATA_CHANGE)
                                     LocalBroadcastManager.getInstance(this).sendBroadcast(userDataChange)
                                     enableSpinner(false)
-                                    Log.d("Locnguyenlog13", "add user success")
+//                                    Log.d("Locnguyenlog13", "add user success")
 //                                    Toast.makeText(this, "Sign In Successfully", Toast.LENGTH_LONG).show()
                                     finish()
                                 } else{

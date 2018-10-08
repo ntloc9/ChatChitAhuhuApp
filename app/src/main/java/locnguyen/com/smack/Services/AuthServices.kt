@@ -55,6 +55,9 @@ object AuthServices {
                 userEmail = response.getString("user")
                 authToken = response.getString("token")
                 isLoggedIn = true
+//                println("locnguyenlogMail" + userEmail)
+//                println("locnguyenlog" + authToken)
+//                println("locnguyenlog" + isLoggedIn)
                 complete(true)
             }catch (e: JSONException){
                 Log.d("JSON", "EXC:" + e.localizedMessage)
@@ -92,6 +95,7 @@ object AuthServices {
                 UserDataService.avatarName = response.getString("avatarName")
                 UserDataService.avatarColor = response.getString("avatarColor")
                 UserDataService.id = response.getString("_id")
+                isLoggedIn = true
                 complete(true)
 
             }catch (e : JSONException){
@@ -128,6 +132,13 @@ object AuthServices {
                 UserDataService.avatarName = response.getString("avatarName")
                 UserDataService.avatarColor = response.getString("avatarColor")
                 UserDataService.id = response.getString("_id")
+
+//                println("locnguyenlogMailFinduser" + userEmail)
+//                println("locnguyenlog" + authToken)
+//                println("locnguyenlog" + isLoggedIn)
+//
+//                println("locnguyenlogUserDataSer" + UserDataService.name)
+//                println("locnguyenlogUserDataSer" + UserDataService.email)
 
                 val userDataChange = Intent(BROADCAST_USER_DATA_CHANGE)
                 LocalBroadcastManager.getInstance(context).sendBroadcast(userDataChange)

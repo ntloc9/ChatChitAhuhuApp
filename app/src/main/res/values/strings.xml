@@ -16,4 +16,5 @@
     <string name="sign_up">Sign up</string>
     <string name="tap_to_generate_user_avatar">Tap to generate user avatar</string>
     <string name="generate_backgroud_color">generate backgroud color</string>
+    <string name="name">Name</string>
 </resources>
