@@ -112,5 +112,8 @@ class SignupActivity : AppCompatActivity() {
         signupSignupBtn.isEnabled = !enable
         signupAvatarUser.isEnabled = !enable
         signupGenColorBgBtn.isEnabled = !enable
+        signupEmailText.isEnabled = !enable
+        signupNameText.isEnabled = !enable
+        signupPasswordText.isEnabled = !enable
     }
 }

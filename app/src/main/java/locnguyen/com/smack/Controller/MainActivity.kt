@@ -15,6 +15,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-
+        hideKeyboard()
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, navigation_drawer_open, navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
@@ -45,19 +46,15 @@ class MainActivity : AppCompatActivity() {
 
 //    val userDataChangeReceiver = object : BroadcastReceiver(){
 //        override fun onReceive(context: Context?, intent: Intent?) {
-//
 //        }
 //    }
 
-    override fun onPause() {
-        Log.d("locnguyenlog", "${javaClass.simpleName} Onpause")
-        super.onPause()
-    }
+    private fun hideKeyboard(){
+        val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
-    override fun onStart() {
-        Log.d("locnguyenlog", "${javaClass.simpleName} Onstart")
-        Log.d("locnguyenloc1", UserDataService.name)
-        super.onStart()
+        if (inputManager.isAcceptingText) {
+            inputManager.hideSoftInputFromWindow(currentFocus.windowToken, 0)
+        }
     }
 
     override fun onResume() {
