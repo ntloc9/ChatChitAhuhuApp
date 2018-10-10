@@ -5,6 +5,7 @@ const val URL_REGISTER = "${BASE_URL}account/register"
 const val URL_LOGIN = "${BASE_URL}account/login"
 const val URL_ADD_USER = "${BASE_URL}user/add"
 const val URL_FIND_USER_BY_EMAIL = "${BASE_URL}user/byEmail/"
+const val SOCKET_URL = "https://holochat.herokuapp.com/"
 
 
 //Broadcast Constaint

@@ -10,12 +10,14 @@ import android.os.Bundle
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -24,10 +26,13 @@ import locnguyen.com.smack.R
 import locnguyen.com.smack.R.string.*
 import locnguyen.com.smack.Services.AuthServices
 import locnguyen.com.smack.Services.UserDataService
+import io.socket.client.IO
 import locnguyen.com.smack.Ultilities.BROADCAST_USER_DATA_CHANGE
+import locnguyen.com.smack.Ultilities.SOCKET_URL
 
 class MainActivity : AppCompatActivity() {
 
+    val socket = IO.socket(SOCKET_URL)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -49,14 +54,6 @@ class MainActivity : AppCompatActivity() {
 //        }
 //    }
 
-    private fun hideKeyboard(){
-        val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-
-        if (inputManager.isAcceptingText) {
-            inputManager.hideSoftInputFromWindow(currentFocus.windowToken, 0)
-        }
-    }
-
     override fun onResume() {
         userChangeData()
         if (AuthServices.isLoggedIn == false) {
@@ -65,7 +62,13 @@ class MainActivity : AppCompatActivity() {
             loginBtnNavHeader.text = getString(sign_in)
             userImageNavHeader.setBackgroundColor(Color.TRANSPARENT)
         }
+        socket.connect()
         super.onResume()
+    }
+
+    override fun onDestroy() {
+        socket.disconnect()
+        super.onDestroy()
     }
 
     private fun userChangeData(){
@@ -75,7 +78,7 @@ class MainActivity : AppCompatActivity() {
                 packageName)
         userImageNavHeader.setImageResource(resourceId)
         userImageNavHeader.setBackgroundColor(UserDataService.convertAvatarColor(UserDataService.avatarColor))
-        loginBtnNavHeader.text = "Logout"
+        loginBtnNavHeader.text = "sign out"
     }
 
     override fun onBackPressed() {
@@ -119,11 +122,33 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun addChannelBtnClick(view: View){
-        
+        if (AuthServices.isLoggedIn){
+            val builder = AlertDialog.Builder(this)
+            val dialogView = layoutInflater.inflate(R.layout.add_channel_dialog,null)
+
+            builder.setView(dialogView).setPositiveButton("Add") { dialogInterface, i ->
+                // perform some logic when clicked
+                val nameTextField = dialogView.findViewById<EditText>(R.id.addChannelNameTxt)
+                val descTextField = dialogView.findViewById<EditText>(R.id.addChannelDescTxt)
+                val channelName = nameTextField.text.toString()
+                val channelDesc = descTextField.text.toString()
+
+                // Create channel with the channel name and description
+                socket.emit("newChannel", channelName, channelDesc)
+            }
+        }
     }
 
     fun sentMessageBtnClick(view: View){
 
+    }
+
+    private fun hideKeyboard(){
+        val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        if (inputManager.isAcceptingText) {
+            inputManager.hideSoftInputFromWindow(currentFocus.windowToken, 0)
+        }
     }
 
 

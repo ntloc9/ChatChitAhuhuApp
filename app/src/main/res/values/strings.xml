@@ -17,4 +17,7 @@
     <string name="tap_to_generate_user_avatar">Tap to generate user avatar</string>
     <string name="generate_backgroud_color">generate backgroud color</string>
     <string name="name">Name</string>
+    <string name="add_channel">Add Channel</string>
+    <string name="channel_name">channel name</string>
+    <string name="channel_description">channel description</string>
 </resources>
